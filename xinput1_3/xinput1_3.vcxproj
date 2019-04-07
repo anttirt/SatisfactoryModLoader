@@ -153,6 +153,9 @@
       <AdditionalLibraryDirectories>$(MSBuildProjectDirectory)\detours;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)xinput1_3.dll" "D:\Games\SatisfactoryEarlyAccess\FactoryGame\Binaries\Win64" /Y /I</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="xinput1_3.cpp" />

@@ -143,37 +143,25 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SatisfactoryModLoader\event\Connection.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\Dispatcher.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\Event.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\EventLoader.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\FunctionHolder.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\game\EtcEvents.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\game\GlobalEvents.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\game\PlayerEvents.h" />
-    <ClInclude Include="SatisfactoryModLoader\event\game\UiEvents.h" />
+    <ClInclude Include="SatisfactoryModLoader\events\PlayerEvents.h" />
+    <ClInclude Include="SatisfactoryModLoader\Globals.h" />
+    <ClInclude Include="SatisfactoryModLoader\HookLoader.h" />
+    <ClInclude Include="SatisfactoryModLoader\utility\Reflection.h" />
+    <ClInclude Include="SatisfactoryModLoader\external\json.hpp" />
     <ClInclude Include="SatisfactoryModLoader\Main.h" />
-    <ClInclude Include="SatisfactoryModLoader\mod\Mod.h" />
-    <ClInclude Include="SatisfactoryModLoader\mod\ModHandler.h" />
+    <ClInclude Include="SatisfactoryModLoader\ModLoader.h" />
+    <ClInclude Include="SatisfactoryModLoader\other\Mod.h" />
     <ClInclude Include="SatisfactoryModLoader\stdafx.h" />
     <ClInclude Include="SatisfactoryModLoader\targetver.h" />
-    <ClInclude Include="SatisfactoryModLoader\util\Configuration.h" />
-    <ClInclude Include="SatisfactoryModLoader\util\FKey.h" />
-    <ClInclude Include="SatisfactoryModLoader\util\FString.h" />
-    <ClInclude Include="SatisfactoryModLoader\util\json.hpp" />
-    <ClInclude Include="SatisfactoryModLoader\util\Reflection.h" />
-    <ClInclude Include="SatisfactoryModLoader\util\Utility.h" />
+    <ClInclude Include="SatisfactoryModLoader\utility\Configuration.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SatisfactoryModLoader\event\Connection.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\event\Dispatcher.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\event\EventLoader.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\HookLoader.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\utility\Reflection.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Main.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\mod\ModHandler.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\ModLoader.cpp" />
     <ClCompile Include="SatisfactoryModLoader\stdafx.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\util\Configuration.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\util\Reflection.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\util\Utility.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\utility\Configuration.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
