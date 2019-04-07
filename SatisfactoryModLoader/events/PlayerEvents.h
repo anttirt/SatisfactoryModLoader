@@ -7,13 +7,12 @@ namespace SML {
 	namespace PlayerEvents {
 		// ; void __fastcall AFGCharacterPlayer::BeginPlay(AFGCharacterPlayer *this)
 		void AFGCharacterPlayerBeginPlayHook(void* player) {
-			((void(WINAPI*)(void*))Globals::functions[HookLoader::Event::AFGCharacterPlayerBeginPlay])(player);
+			((void(WINAPI*)(void*))globals.functions[HookLoader::Event::AFGCharacterPlayerBeginPlay])(player);
 		}
 
 		// ; void __fastcall UFGItemDescriptor::UFGItemDescriptor(UFGItemDescriptor *this)
 		void UFGItemDescriptorUFGItemDescriptorHook(void* item) {
-			std::cout << item << std::endl;
-			((void(WINAPI*)(void*))Globals::functions[HookLoader::Event::UFGItemDescriptorUFGItemDescriptor])(item);
+			((void(WINAPI*)(void*))globals.functions[HookLoader::Event::UFGItemDescriptorUFGItemDescriptor])(item);
 		}
 
 		void Setup(HookLoader& hookLoader) {

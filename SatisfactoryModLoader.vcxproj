@@ -146,17 +146,22 @@
     <ClInclude Include="SatisfactoryModLoader\events\PlayerEvents.h" />
     <ClInclude Include="SatisfactoryModLoader\Globals.h" />
     <ClInclude Include="SatisfactoryModLoader\HookLoader.h" />
+    <ClInclude Include="SatisfactoryModLoader\other\BaseMod.h" />
+    <ClInclude Include="SatisfactoryModLoader\utility\Connection.h" />
+    <ClInclude Include="SatisfactoryModLoader\utility\Dispatcher.h" />
     <ClInclude Include="SatisfactoryModLoader\utility\Reflection.h" />
     <ClInclude Include="SatisfactoryModLoader\external\json.hpp" />
     <ClInclude Include="SatisfactoryModLoader\Main.h" />
     <ClInclude Include="SatisfactoryModLoader\ModLoader.h" />
-    <ClInclude Include="SatisfactoryModLoader\other\Mod.h" />
     <ClInclude Include="SatisfactoryModLoader\stdafx.h" />
     <ClInclude Include="SatisfactoryModLoader\targetver.h" />
     <ClInclude Include="SatisfactoryModLoader\utility\Configuration.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SatisfactoryModLoader\Globals.cpp" />
     <ClCompile Include="SatisfactoryModLoader\HookLoader.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\utility\Connection.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\utility\Dispatcher.cpp" />
     <ClCompile Include="SatisfactoryModLoader\utility\Reflection.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Main.cpp" />
     <ClCompile Include="SatisfactoryModLoader\ModLoader.cpp" />

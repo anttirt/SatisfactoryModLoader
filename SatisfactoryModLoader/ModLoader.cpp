@@ -1,7 +1,9 @@
 #include <stdafx.h>
 #include <iostream>
-#include "utility/Reflection.h"
+#include <utility/Reflection.h>
+#include <other/BaseMod.h>
 #include "ModLoader.h"
+#include "Globals.h"
 
 namespace fs = std::experimental::filesystem;
 namespace ref = SML::Reflection;
@@ -21,32 +23,33 @@ namespace SML {
 		}
 	}
 
+	// run Setup() on each mod
+	void ModLoader::SetupMods() {
+		for(BaseMod* mod : _mods) {
+			mod->PreSetup(&globals);
+		}
+	}
+
 	// verify all dlls to find valid mods
-	std::vector<Mod> ModLoader::VerifyMods() {
-		std::vector<Mod> mods;
+	void ModLoader::VerifyMods() {
 		for (auto path : _cachedFiles) {
 			HMODULE dll = LoadLibraryA(path.string().c_str());
 			if (!dll) {
 				continue;
 			}
 
-			Mod mod;
-
-			// check if the mod is valid
-			if (!ref::get_field_value(dll, "ModName", mod.Name) ||
-				!ref::get_field_value(dll, "ModVersion", mod.Version) || 
-				!ref::get_field_value(dll, "ModDescription", mod.Description) || 
-				!ref::get_field_value(dll, "ModAuthors", mod.Authors) /*|| 
-				!ref::get_field_value(dll, "ModDependencies", mod.Dependencies)*/) {
+			auto func = ref::get_function(dll, "CreateMod");
+			if (!func) {
 				std::cout << "Invalid Values" << std::endl;
 				FreeLibrary(dll);
 				continue;
 			}
+			BaseMod* mod = ((BaseMod*(WINAPI*)())func)();
 
 			// check if the mod is already loaded
 			bool isDuplicate = false;
-			for (Mod existingMod : mods) {
-				if (existingMod.Name == mod.Name) {
+			for (auto existingMod : _mods) {
+				if (existingMod->Name() == mod->Name()) {
 					FreeLibrary(dll);
 					isDuplicate = true;
 					break;
@@ -60,13 +63,11 @@ namespace SML {
 			std::string fileNameBase = path.filename().string();
 			std::string fileName = fileNameBase.substr(0, fileNameBase.find_last_of('.'));
 
-			mod.FileName = fileName;
-			std::cout << mod.FileName << std::endl;
-			mods.push_back(mod);
+			mod->FileName = fileName.c_str();
+			std::cout << mod->FileName << std::endl;
+			_mods.push_back(mod);
 
-			std::cout << "Loaded [" << mod.FileName << "@" << mod.Version << "]" << std::endl;
+			std::cout << "Loaded [" << mod->Name() << "@" << mod->Version() << "]" << std::endl;
 		}
-
-		return mods;
 	}
 }

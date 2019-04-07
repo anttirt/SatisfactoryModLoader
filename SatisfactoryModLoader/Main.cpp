@@ -37,8 +37,8 @@ namespace SML {
 		}
 		config.load();
 
-		Globals::showConsoleDebug = config.get("ShowDebug", false);
-		Globals::supressConsoleErrors = config.get("SupressErrors", false);
+		//Globals::showConsoleDebug = config.get("ShowDebug", false);
+		//Globals::supressConsoleErrors = config.get("SupressErrors", false);
 
 		// verify folders
 		struct stat info;
@@ -64,10 +64,12 @@ namespace SML {
 		// load mods
 		ModLoader modLoader;
 		modLoader.CacheMods();
-		Globals::modList = modLoader.VerifyMods();
+		modLoader.VerifyMods();
 
 		// load hooks
 		HookLoader hookLoader;
 		hookLoader.RegisterHooks();
+
+		modLoader.SetupMods();
 	}
 }

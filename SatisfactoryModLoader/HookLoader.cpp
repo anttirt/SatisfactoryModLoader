@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include <detours.h>
 #include <iostream>
-#include "events/PlayerEvents.h"
+#include <events/PlayerEvents.h>
 #include "Globals.h"
 #include "HookLoader.h"
 
@@ -26,6 +26,6 @@ namespace SML {
 
 		std::cout << "Hooked " << eventCall << std::endl;
 
-		Globals::functions.insert(std::pair<Event, PVOID>(event, function));
+		globals.functions.insert(std::pair<Event, PVOID>(event, function));
 	}
 }
