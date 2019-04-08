@@ -58,13 +58,11 @@ void HealPlayer(void* player, SML::CommandParser::CommandData data) {
 }
 
 void CheckHealth(void* player, SML::CommandParser::CommandData data) {
-	// 1C164E0F100
-	SML::mod_info(myMod->Name(), "Player ", player);
-	intptr_t address = (intptr_t)player;
-	intptr_t offset = 0x15C;
-	long long newAddress = address + offset;
-	void* p = (void*)newAddress;
-	SML::mod_info(myMod->Name(), "Health: ", p, " Value (float): ", *(float*)p, " Value (int): ", *(int*)p);
+	float health = *tmpPlayer->healthComponent->currentHealth;
+
+	std::string str("The character's health is " + std::to_string((int)health));
+	auto pointer = myMod->GlobalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
+	((void(__stdcall*)(void*, std::string))pointer)(player, str);
 }
 
 void MyMod::Setup() {
