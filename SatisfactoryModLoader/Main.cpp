@@ -12,16 +12,17 @@
 namespace SML {
 	void Entry() {
 		// run logic once
-		std::ifstream waitFileInput("wait");
+		const char* waitFile = "wait";
+		std::ifstream waitFileInput(waitFile);
 		if (!waitFileInput.good()) {
-			std::ofstream waitFileOutput("wait");
+			std::ofstream waitFileOutput(waitFile);
 			waitFileOutput.close();
 			waitFileInput.close();
 			return;
 		}
 		waitFileInput.close();
 
-		int code = std::remove("wait");
+		int code = std::remove(waitFile);
 		if (code != 0) {
 			// error in removing tmp file
 			return;
@@ -37,8 +38,8 @@ namespace SML {
 		}
 		config.load();
 
-		//Globals::showConsoleDebug = config.get("ShowDebug", false);
-		//Globals::supressConsoleErrors = config.get("SupressErrors", false);
+		globals.showConsoleDebug = config.get("ShowDebug", false);
+		globals.supressConsoleErrors = config.get("SupressErrors", false);
 
 		// verify folders
 		struct stat info;

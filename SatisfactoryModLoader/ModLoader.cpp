@@ -1,7 +1,6 @@
 #include <stdafx.h>
 #include <iostream>
 #include <utility/Reflection.h>
-#include <other/BaseMod.h>
 #include "ModLoader.h"
 #include "Globals.h"
 
@@ -25,7 +24,7 @@ namespace SML {
 
 	// run Setup() on each mod
 	void ModLoader::SetupMods() {
-		for(BaseMod* mod : _mods) {
+		for(BaseMod* mod : globals.mods) {
 			mod->PreSetup(&globals);
 		}
 	}
@@ -48,7 +47,7 @@ namespace SML {
 
 			// check if the mod is already loaded
 			bool isDuplicate = false;
-			for (auto existingMod : _mods) {
+			for (auto existingMod : globals.mods) {
 				if (existingMod->Name() == mod->Name()) {
 					FreeLibrary(dll);
 					isDuplicate = true;
@@ -65,7 +64,7 @@ namespace SML {
 
 			mod->FileName = fileName.c_str();
 			std::cout << mod->FileName << std::endl;
-			_mods.push_back(mod);
+			globals.mods.push_back(mod);
 
 			std::cout << "Loaded [" << mod->Name() << "@" << mod->Version() << "]" << std::endl;
 		}

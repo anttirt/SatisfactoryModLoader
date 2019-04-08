@@ -4,13 +4,14 @@
 #include <map>
 #include <vector>
 #include "HookLoader.h"
+#include "ModReturns.h"
 
 namespace SML {
 	class Connection;
 	class Dispatcher;
 
 	template<typename ...Args>
-	using EventFunc = bool(Args...);
+	using EventFunc = void(ModReturns*, Args...);
 
 	class Dispatcher {
 	public:
@@ -24,22 +25,16 @@ namespace SML {
 		}
 
 		template<typename ...Args>
-		bool post(HookLoader::Event type, Args ...args) const {
+		void post(ModReturns* returns, HookLoader::Event type, Args ...args) const {
 			if (_observers.find(type) == _observers.end()) {
-				return true;
+				return;
 			}
-
-			bool run = true;
 
 			auto observers = _observers.at(type);
 			for (auto observer : observers) {
 				auto slot = *(EventFunc<Args...>*)observer.slot;
-				if (!slot((args)...)) {
-					run = false;
-				}
+				slot(returns, (args)...);
 			}
-
-			return run;
 		}
 
 	private:

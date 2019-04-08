@@ -3,21 +3,26 @@
 #include <Windows.h>
 #include "Globals.h"
 
+class FString;
+
 namespace SML {
-	namespace PlayerEvents {
+	class PlayerEvents {
+	public:
+		// ; void __fastcall AFGPlayerController::BeginPlay(AFGPlayerController *this)
+		static void AFGPlayerControllerBeginPlayHook(void* controller);
+
 		// ; void __fastcall AFGCharacterPlayer::BeginPlay(AFGCharacterPlayer *this)
-		void AFGCharacterPlayerBeginPlayHook(void* player) {
-			((void(WINAPI*)(void*))globals.functions[HookLoader::Event::AFGCharacterPlayerBeginPlay])(player);
-		}
+		static void AFGCharacterPlayerBeginPlayHook(void* player);
 
-		// ; void __fastcall UFGItemDescriptor::UFGItemDescriptor(UFGItemDescriptor *this)
-		void UFGItemDescriptorUFGItemDescriptorHook(void* item) {
-			((void(WINAPI*)(void*))globals.functions[HookLoader::Event::UFGItemDescriptorUFGItemDescriptor])(item);
-		}
+		// ; void __fastcall AFGPlayerController::EnterChatMessage(AFGPlayerController *this, FString *inMessage)
+		static void AFGPlayerControllerEnterChatMessageHook(void* player, FString* message);
 
-		void Setup(HookLoader& hookLoader) {
-			hookLoader.HookEvent(HookLoader::Event::AFGCharacterPlayerBeginPlay, "AFGCharacterPlayer::BeginPlay", AFGCharacterPlayerBeginPlayHook);
-			hookLoader.HookEvent(HookLoader::Event::UFGItemDescriptorUFGItemDescriptor, "UFGItemDescriptor::UFGItemDescriptor", UFGItemDescriptorUFGItemDescriptorHook);
-		}
-	}
+		// ; void __fastcall AFGPlayerController::EnterChatMessage(AFGPlayerController *this, FString *inMessage)
+		static void AFGPlayerControllerEnterChatMessageGlobal(void* player, FString* message);
+
+		// ; void __fastcall UFGHealthComponent::TakeDamage(UFGHealthComponent *this, AActor *damagedActor, float damageAmount, UDamageType *damageType, AController *instigatedBy, AActor *damageCauser)
+		static void UFGHealthComponentTakeDamageHook(void* healthComponent, void* damagedActor, float damageAmount, void* damageType, void* instigatedBy, void* damageCauser);
+
+		void Setup(HookLoader& hookLoader);
+	};
 }

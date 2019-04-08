@@ -6,6 +6,8 @@
 #include "HookLoader.h"
 
 namespace SML {
+	class BaseMod;
+
 	class Globals {
 	public:
 		static const char* modLoaderVersion;
@@ -13,6 +15,7 @@ namespace SML {
 		static bool showConsoleDebug;
 		static bool supressConsoleErrors;
 		std::map<HookLoader::Event, PVOID> functions;
+		std::vector<BaseMod*> mods;
 	};
 
 	extern Globals globals;

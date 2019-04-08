@@ -3,6 +3,7 @@
 #include <utility/Connection.h>
 #include <utility/Dispatcher.h>
 #include "HookLoader.h"
+#include "ModReturns.h"
 #include "Globals.h"
 
 #define GLOBAL extern "C" __declspec(dllexport)
@@ -16,16 +17,16 @@ namespace SML {
 		virtual const char* Version() { return ""; };
 		virtual const char* Description() { return ""; };
 		virtual const char* Authors() { return ""; };
+		virtual const std::vector<const char*> Dependencies() { return std::vector<const char*>{}; }
 
 		virtual void PreSetup(Globals* globals) {}
 
 		template<typename ...Args>
-		void Run(HookLoader::Event event, Args ...args) {
-			_dispatcher.post(event, (args)...);
+		void Run(ModReturns* returns, HookLoader::Event event, Args ...args) {
+			return _dispatcher.post(returns, event, (args)...);
 		}
 
 	protected:
-		SML::Globals* _globals;
 		SML::Dispatcher _dispatcher;
 
 		virtual void Setup() {}
