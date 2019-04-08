@@ -69,4 +69,31 @@ namespace SML {
 			SML::info("Loaded [", mod->Name(), "@", mod->Version(), "]");
 		}
 	}
+
+	void ModLoader::VerifyDependencies() {
+		std::vector<const char*> names;
+		for (BaseMod* mod : globals.mods) {
+			names.push_back(mod->Name());
+		}
+		for (BaseMod* mod : globals.mods) {
+			std::string name(mod->Name());
+			for (std::string dep : mod->Dependencies()) {
+				info("Parsing dependency ", dep);
+				if (dep.substr(0, 1) == "*") {
+					auto it = std::find(names.begin(), names.end(), dep.substr(1));
+					if (it == names.end()) {
+						warning(name, " is missing optional dependency ", dep.substr(1));
+					}
+				}
+				else {
+					auto it = std::find(names.begin(), names.end(), dep);
+					if (it == names.end()) {
+						std::string msg = "Mod " + name + " is missing dependency " + dep + "!\nPlease install " + dep + " or remove " + name + ".\nPress Ok to exit.";
+						MessageBoxA(NULL, msg.c_str(), "SatisfactoryModLoader Fatal Error", MB_ICONERROR);
+						abort();
+					}
+				}
+			}
+		}
+	}
 }

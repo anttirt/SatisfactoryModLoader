@@ -69,6 +69,8 @@ namespace SML {
 		modLoader.CacheMods();
 		SML::info("Verifying mods");
 		modLoader.VerifyMods();
+		SML::info("Verifying dependencies");
+		modLoader.VerifyDependencies();
 
 		// load hooks
 		HookLoader hookLoader;
