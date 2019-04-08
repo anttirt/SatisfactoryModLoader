@@ -4,7 +4,8 @@
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "utility/Configuration.h"
+#include <utility/Configuration.h>
+#include <utility/Logger.h>
 #include "Globals.h"
 #include "ModLoader.h"
 #include "HookLoader.h"
@@ -64,13 +65,17 @@ namespace SML {
 
 		// load mods
 		ModLoader modLoader;
+		SML::info("Caching dlls");
 		modLoader.CacheMods();
+		SML::info("Verifying mods");
 		modLoader.VerifyMods();
 
 		// load hooks
 		HookLoader hookLoader;
+		SML::info("Registering hooks");
 		hookLoader.RegisterHooks();
 
+		SML::info("Setting up mods");
 		modLoader.SetupMods();
 	}
 }

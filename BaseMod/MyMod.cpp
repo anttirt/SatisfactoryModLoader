@@ -11,7 +11,7 @@ using event = SML::HookLoader::Event;
 MyMod* myMod;
 
 void GetMessage(SML::ModReturns* returns, void* player, std::string message) {
-	std::cout << message << std::endl;
+	//SML::mod_info(myMod->SName(), "Message recieved: ", message);
 	// string -> const char* -> FString
 	FString msg = "TestMessage";
 	// get pointer

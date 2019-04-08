@@ -2,6 +2,7 @@
 #include <detours.h>
 #include <iostream>
 #include <events/PlayerEvents.h>
+#include <utility/Logger.h>
 #include "Globals.h"
 #include "HookLoader.h"
 #include "ModLoader.h"
@@ -31,7 +32,7 @@ namespace SML {
 		DetourAttach(&(PVOID&)function, hook);
 		DetourTransactionCommit();
 
-		std::cout << "Hooked " << eventCall << std::endl;
+		SML::info("Hooked ", eventCall);
 
 		globals.functions.insert(std::pair<Event, PVOID>(event, function));
 	}

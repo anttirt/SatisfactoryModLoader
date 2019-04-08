@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <iostream>
 #include <utility/Reflection.h>
+#include <utility/Logger.h>
 #include "ModLoader.h"
 #include "Globals.h"
 
@@ -16,7 +17,7 @@ namespace SML {
 			auto path = entry.path();
 
 			if (path.extension().string() == ".dll") {
-				std::cout << "Located: " << path.string() << std::endl;
+				SML::info("Caching ", path.string());
 				_cachedFiles.push_back(path);
 			}
 		}
@@ -39,7 +40,7 @@ namespace SML {
 
 			auto func = ref::get_function(dll, "CreateMod");
 			if (!func) {
-				std::cout << "Invalid Values" << std::endl;
+				SML::error("Invalid: ", path.string());
 				FreeLibrary(dll);
 				continue;
 			}
@@ -63,10 +64,9 @@ namespace SML {
 			std::string fileName = fileNameBase.substr(0, fileNameBase.find_last_of('.'));
 
 			mod->FileName = fileName.c_str();
-			std::cout << mod->FileName << std::endl;
 			globals.mods.push_back(mod);
 
-			std::cout << "Loaded [" << mod->Name() << "@" << mod->Version() << "]" << std::endl;
+			SML::info("Loaded [", mod->Name(), "@", mod->Version(), "]");
 		}
 	}
 }

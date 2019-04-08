@@ -3,6 +3,7 @@
 #include <other/BaseMod.h>
 #include <utility/Connection.h>
 #include <utility/Dispatcher.h>
+#include <utility/Logger.h>
 
 class MyMod : SML::BaseMod {
 public:
@@ -27,7 +28,7 @@ public:
 	}
 
 	void PreSetup(SML::Globals* globals) {
-		std::cout << "Setting up " << Name() << std::endl;
+		SML::mod_info(Name(), "Setting up ", Name());
 		GlobalsReference = globals;
 
 		Setup();
