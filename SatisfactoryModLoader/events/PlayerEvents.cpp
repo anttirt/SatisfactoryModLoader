@@ -56,7 +56,6 @@ namespace SML {
 		pointer(player, message);
 	}
 
-	// ; void __fastcall UFGHealthComponent::TakeDamage(UFGHealthComponent *this, AActor *damagedActor, float damageAmount, UDamageType *damageType, AController *instigatedBy, AActor *damageCauser)
 	void PlayerEvents::UFGHealthComponentTakeDamageHook(void* healthComponent, void* damagedActor, float damageAmount, void* damageType, void* instigatedBy, void* damageCauser) {
 		auto returns = Run(event::UFGHealthComponentTakeDamage, healthComponent, damagedActor, damageAmount, damageType, instigatedBy, damageCauser);
 		if (!returns.UseOriginalFunction) {
@@ -64,6 +63,15 @@ namespace SML {
 		}
 		auto pointer = (void(WINAPI*)(void*, void*, float, void*, void*, void*))globals.functions[event::UFGHealthComponentTakeDamage];
 		pointer(healthComponent, damagedActor, damageAmount, damageType, instigatedBy, damageCauser);
+	}
+
+	bool PlayerEvents::UPlayerInputInputKeyHook(void* input, void* key, void* event, float amountDepressed, bool gamepad) {
+		auto returns = Run(event::UPlayerInputInputKey, input, key, event, amountDepressed, gamepad);
+		if (!returns.UseOriginalFunction) {
+			return *(bool*)returns.ReturnValue;
+		}
+		auto pointer = (bool(WINAPI*)(void*, void*, void*, float, bool))globals.functions[event::UPlayerInputInputKey];
+		return pointer(input, key, event, amountDepressed, gamepad);
 	}
 
 	void PlayerEvents::Setup(HookLoader& hookLoader) {
@@ -77,5 +85,8 @@ namespace SML {
 
 		// UFGHealthComponent
 		hookLoader.HookEvent(event::UFGHealthComponentTakeDamage, "UFGHealthComponent::TakeDamage", this->UFGHealthComponentTakeDamageHook);
+
+		// UPlayerInput
+		hookLoader.HookEvent(event::UPlayerInputInputKey, "UPlayerInput::InputKey", this->UPlayerInputInputKeyHook);
 	}
 }

@@ -6,11 +6,17 @@
 #include <sys/stat.h>
 #include <utility/Configuration.h>
 #include <utility/Logger.h>
+#include <other/CommandParser.h>
+#include <other/CommandSystem.h>
 #include "Globals.h"
 #include "ModLoader.h"
 #include "HookLoader.h"
 
 namespace SML {
+	void HealPerson(void* player, float amount) {
+		SML::info("Healing for ", amount, " health");
+	}
+
 	void Entry() {
 		// run logic once
 		const char* waitFile = "wait";
@@ -79,5 +85,18 @@ namespace SML {
 
 		SML::info("Setting up mods");
 		modLoader.SetupMods();
+
+		// test commands
+		CommandSystem system;
+		system.RegisterCommand("heal", HealPerson);
+
+		CommandParser::CommandData data = CommandParser::Parse("!heal 75");
+		SML::info("Command: ", data.Command);
+		for (auto s : data.Args) {
+			SML::info("Arg: ", s);
+		}
+
+		Command cmd = system.get_command(data.Command);
+		cmd.Invoke(nullptr, data.get_float(0));
 	}
 }

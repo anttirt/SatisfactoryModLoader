@@ -28,6 +28,11 @@ namespace SML {
 
 			// ; void __fastcall UFGHealthComponent::TakeDamage(UFGHealthComponent *this, AActor *damagedActor, float damageAmount, UDamageType *damageType, AController *instigatedBy, AActor *damageCauser)
 			UFGHealthComponentTakeDamage,
+
+			/// UPlayerInput
+
+			// ; bool __fastcall UPlayerInput::InputKey(UPlayerInput *this, FKey Key, EInputEvent Event, float AmountDepressed, bool bGamepad)
+			UPlayerInputInputKey,
 			END
 		};
 
