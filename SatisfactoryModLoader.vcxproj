@@ -147,6 +147,7 @@
     <ClInclude Include="SatisfactoryModLoader\external\FString.h" />
     <ClInclude Include="SatisfactoryModLoader\Globals.h" />
     <ClInclude Include="SatisfactoryModLoader\HookLoader.h" />
+    <ClInclude Include="SatisfactoryModLoader\Internals.h" />
     <ClInclude Include="SatisfactoryModLoader\ModReturns.h" />
     <ClInclude Include="SatisfactoryModLoader\other\BaseMod.h" />
     <ClInclude Include="SatisfactoryModLoader\other\CommandParser.h" />
@@ -166,6 +167,7 @@
     <ClCompile Include="SatisfactoryModLoader\events\PlayerEvents.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Globals.cpp" />
     <ClCompile Include="SatisfactoryModLoader\HookLoader.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\Internals.cpp" />
     <ClCompile Include="SatisfactoryModLoader\other\CommandSystem.cpp" />
     <ClCompile Include="SatisfactoryModLoader\utility\Connection.cpp" />
     <ClCompile Include="SatisfactoryModLoader\utility\Dispatcher.cpp" />

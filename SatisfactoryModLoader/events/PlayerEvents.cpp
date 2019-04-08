@@ -2,7 +2,10 @@
 #include <other/BaseMod.h>
 #include <events/PlayerEvents.h>
 #include <external/FString.h>
+#include <utility/Logger.h>
+#include "Globals.h"
 #include "ModReturns.h"
+#include "HookLoader.h"
 
 using event = SML::HookLoader::Event;
 
@@ -10,6 +13,7 @@ namespace SML {
 	template<typename ...Args>
 	ModReturns Run(HookLoader::Event event, Args ...args) {
 		ModReturns returns;
+		returns.UseOriginalFunction = true;
 		for (BaseMod* mod : globals.mods) {
 			mod->Run(&returns, event, (args)...);
 		}
@@ -51,9 +55,28 @@ namespace SML {
 		pointer(player, message);
 	}
 
-	void PlayerEvents::AFGPlayerControllerEnterChatMessageGlobal(void* player, FString* message) {
+	void PlayerEvents::AFGPlayerControllerEnterChatMessageGlobal(void* player, std::string message) {
+		FString msg = message.c_str();
 		auto pointer = (void(WINAPI*)(void*, FString*))globals.functions[event::AFGPlayerControllerEnterChatMessage];
-		pointer(player, message);
+		pointer(player, &msg);
+	}
+
+	void PlayerEvents::AFGCharacterBaseBeginPlayHook(void* characterBase) {
+		auto returns = Run(event::AFGCharacterBaseBeginPlay, characterBase);
+		if (!returns.UseOriginalFunction) {
+			return;
+		}
+		auto pointer = (void(WINAPI*)(void*))globals.functions[event::AFGCharacterBaseBeginPlay];
+		pointer(characterBase);
+	}
+
+	void PlayerEvents::AFGCharacterBaseGetHealthComponentHook(void* uObject, void* fFrame) {
+		auto returns = Run(event::AFGCharacterBaseGetHealthComponent, uObject, fFrame);
+		if (!returns.UseOriginalFunction) {
+			return;
+		}
+		auto pointer = (void(WINAPI*)(void*, void*))globals.functions[event::AFGCharacterBaseGetHealthComponent];
+		pointer(uObject, fFrame);
 	}
 
 	void PlayerEvents::UFGHealthComponentTakeDamageHook(void* healthComponent, void* damagedActor, float damageAmount, void* damageType, void* instigatedBy, void* damageCauser) {
@@ -74,19 +97,23 @@ namespace SML {
 		return pointer(input, key, event, amountDepressed, gamepad);
 	}
 
-	void PlayerEvents::Setup(HookLoader& hookLoader) {
+	void PlayerEvents::Setup(HookLoader* hookLoader) {
 		// AFGCharacterPlayer
-		hookLoader.HookEvent(event::AFGCharacterPlayerBeginPlay, "AFGCharacterPlayer::BeginPlay", this->AFGCharacterPlayerBeginPlayHook);
+		hookLoader->HookEvent(event::AFGCharacterPlayerBeginPlay, "AFGCharacterPlayer::BeginPlay", this->AFGCharacterPlayerBeginPlayHook);
 
 		// AFGPlayerController
-		hookLoader.HookEvent(event::AFGPlayerControllerBeginPlay, "AFGPlayerController::BeginPlay", this->AFGPlayerControllerBeginPlayHook);
-		hookLoader.HookEvent(event::AFGPlayerControllerEnterChatMessage, "AFGPlayerController::EnterChatMessage", this->AFGPlayerControllerEnterChatMessageHook);
-		hookLoader.HookEvent(event::AFGPlayerControllerEnterChatMessageGlobal, "", this->AFGPlayerControllerEnterChatMessageGlobal);
+		hookLoader->HookEvent(event::AFGPlayerControllerBeginPlay, "AFGPlayerController::BeginPlay", this->AFGPlayerControllerBeginPlayHook);
+		hookLoader->HookEvent(event::AFGPlayerControllerEnterChatMessage, "AFGPlayerController::EnterChatMessage", this->AFGPlayerControllerEnterChatMessageHook);
+		hookLoader->HookEvent(event::AFGPlayerControllerEnterChatMessageGlobal, "", this->AFGPlayerControllerEnterChatMessageGlobal);
+
+		// AFGCharacterBase
+		hookLoader->HookEvent(event::AFGCharacterBaseBeginPlay, "AFGCharacterBase::BeginPlay", this->AFGCharacterBaseBeginPlayHook);
+		//hookLoader->HookEvent(event::AFGCharacterBaseBeginPlay, "AFGCharacterBase::GetHealthComponent", this->AFGCharacterBaseGetHealthComponentHook);
 
 		// UFGHealthComponent
-		hookLoader.HookEvent(event::UFGHealthComponentTakeDamage, "UFGHealthComponent::TakeDamage", this->UFGHealthComponentTakeDamageHook);
+		hookLoader->HookEvent(event::UFGHealthComponentTakeDamage, "UFGHealthComponent::TakeDamage", this->UFGHealthComponentTakeDamageHook);
 
 		// UPlayerInput
-		hookLoader.HookEvent(event::UPlayerInputInputKey, "UPlayerInput::InputKey", this->UPlayerInputInputKeyHook);
+		hookLoader->HookEvent(event::UPlayerInputInputKey, "UPlayerInput::InputKey", this->UPlayerInputInputKeyHook);
 	}
 }

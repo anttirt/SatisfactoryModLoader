@@ -2,6 +2,7 @@
 
 #include <utility/Connection.h>
 #include <utility/Dispatcher.h>
+#include <other/CommandSystem.h>
 #include "HookLoader.h"
 #include "ModReturns.h"
 #include "Globals.h"

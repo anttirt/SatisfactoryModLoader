@@ -24,6 +24,13 @@ namespace SML {
 			// ; void __fastcall AFGPlayerController::EnterChatMessage(AFGPlayerController *this, FString *inMessage) - GLOBAL
 			AFGPlayerControllerEnterChatMessageGlobal,
 
+			/// AFGCharacterBase
+
+			// ; void __fastcall AFGCharacterBase::BeginPlay(AFGCharacterBase *this)
+			AFGCharacterBaseBeginPlay,
+			// ; void __fastcall AFGCharacterBase::execGetHealthComponent(struct UObject *, struct FFrame *, void *const )
+			AFGCharacterBaseGetHealthComponent,
+
 			/// UFGHealthComponent
 
 			// ; void __fastcall UFGHealthComponent::TakeDamage(UFGHealthComponent *this, AActor *damagedActor, float damageAmount, UDamageType *damageType, AController *instigatedBy, AActor *damageCauser)

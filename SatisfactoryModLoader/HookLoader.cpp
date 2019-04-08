@@ -11,7 +11,7 @@ namespace SML {
 	// get original functions and hook them
 	void HookLoader::RegisterHooks() {
 		PlayerEvents playerEvents;
-		playerEvents.Setup(*this);
+		playerEvents.Setup(this);
 	}
 
 	// hook event from keypair at index
@@ -26,6 +26,7 @@ namespace SML {
 
 		auto function = DetourFindFunction(_gameModule, eventCall);
 		if (!function) {
+			SML::error("Cannot find ", eventCall);
 			return;
 		}
 
