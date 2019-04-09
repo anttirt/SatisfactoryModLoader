@@ -7,12 +7,12 @@
 #include <other/CommandParser.h>
 #include <other/CommandSystem.h>
 
-class MyMod : SML::BaseMod {
+class ExampleMod : SML::BaseMod {
 public:
 	SML::Globals* GlobalsReference;
 
 	const char* Name() { 
-		return "Base Mod"; 
+		return "Example Mod"; 
 	};
 	const char* Version() { 
 		return "0.1"; 
@@ -40,6 +40,6 @@ protected:
 	void Setup();
 };
 
-GLOBAL MyMod* CreateMod() {
-	return new MyMod;
+GLOBAL ExampleMod* CreateMod() {
+	return new ExampleMod;
 }

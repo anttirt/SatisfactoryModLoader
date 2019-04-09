@@ -6,8 +6,7 @@
 #include <sys/stat.h>
 #include <utility/Configuration.h>
 #include <utility/Logger.h>
-#include <other/CommandParser.h>
-#include <other/CommandSystem.h>
+#include <events/UtilityEvents.h>
 #include "Globals.h"
 #include "ModLoader.h"
 #include "HookLoader.h"
@@ -79,7 +78,7 @@ namespace SML {
 		SML::info("Registering hooks");
 		hookLoader.RegisterHooks();
 
-		SML::info("Setting up mods");
+		SML::info("Setting up modsadadadad");
 		modLoader.SetupMods();
 	}
 }

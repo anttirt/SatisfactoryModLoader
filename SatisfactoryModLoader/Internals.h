@@ -1,15 +1,29 @@
 #pragma once
 
+#include <string>
+
 namespace SML {
 	template <class T>
-	T * offsetPointer(T * ptr, size_t offset) {
+	T * OffsetPointer(T * ptr, size_t offset) {
 		return (T *)(*(size_t*)(reinterpret_cast<unsigned char*>(ptr) + offset));
 	}
 
 	template <class T>
-	T * offset(T * ptr, size_t offset) {
+	T * Offset(T * ptr, size_t offset) {
 		return (T *)(reinterpret_cast<unsigned char*>(ptr) + offset);
 	}
+
+	struct FString {
+		int16_t* data;
+		int32_t length;
+
+		FString();
+		FString(const char* message);
+
+		std::string get_string();
+	private:
+		void set_message(const char* message);
+	};
 
 	class PlayerCharacter {
 	public:
@@ -52,7 +66,7 @@ namespace SML {
 
 		InventoryComponent(void* pointer);
 
-		class ItemStack getItem(int index);
+		class ItemStack get_item(int index);
 	};
 
 	class ItemStack {
@@ -70,6 +84,47 @@ namespace SML {
 	public:
 		void* pointer;
 
+		class ItemDescriptor* descriptor;
+
 		Item(void* pointer);
+	};
+
+	enum EStackSize
+	{
+		SS_ONE = 0,
+		SS_SMALL = 1,
+		SS_MEDIUM = 2,
+		SS_BIG = 3,
+		SS_HUGE = 4,
+		SS_LAST_ENUM = 5,
+	};
+
+	enum EResourceForm
+	{
+		RF_INVALID = 0,
+		RF_SOLID = 1,
+		RF_LIQUID = 2,
+		RF_GAS = 3,
+		RF_HEAT = 4,
+		RF_LAST_ENUM = 5,
+	};
+
+	class ItemDescriptor {
+	public:
+		void* pointer;
+
+		bool* useDisplayNameAndDescription;
+
+		void* displayName;
+		void* description;
+
+		EStackSize* stackSize;
+
+		float* energyValue;
+		float* radioactiveDecay;
+
+		EResourceForm* form;
+
+		ItemDescriptor(void* pointer);
 	};
 }

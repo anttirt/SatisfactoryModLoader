@@ -154,7 +154,7 @@
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)xinput1_3.dll" "D:\Games\SatisfactoryEarlyAccess\FactoryGame\Binaries\Win64" /Y /I</Command>
+      <Command>xcopy "$(OutDir)$(ProjectName).dll" "D:\Games\SatisfactoryEarlyAccess\FactoryGame\Binaries\Win64" /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

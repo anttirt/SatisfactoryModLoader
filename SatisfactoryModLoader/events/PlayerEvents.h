@@ -1,14 +1,15 @@
 #pragma once
 
 #include <Windows.h>
+#include <events/BaseEvent.h>
+#include "Internals.h"
 
-class FString;
 class Globals;
 
 namespace SML {
 	class HookLoader;
 
-	class PlayerEvents {
+	class PlayerEvents : BaseEvent {
 	public:
 		// ; void __fastcall AFGPlayerController::BeginPlay(AFGPlayerController *this)
 		static void AFGPlayerControllerBeginPlayHook(void* controller);

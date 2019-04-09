@@ -1,25 +1,9 @@
 #include <stdafx.h>
 #include <other/BaseMod.h>
 #include <events/PlayerEvents.h>
-#include <external/FString.h>
 #include <utility/Logger.h>
-#include "Globals.h"
-#include "ModReturns.h"
-#include "HookLoader.h"
-
-using event = SML::HookLoader::Event;
 
 namespace SML {
-	template<typename ...Args>
-	ModReturns Run(HookLoader::Event event, Args ...args) {
-		ModReturns returns;
-		returns.UseOriginalFunction = true;
-		for (BaseMod* mod : globals.mods) {
-			mod->Run(&returns, event, (args)...);
-		}
-		return returns;
-	}
-
 	void PlayerEvents::AFGCharacterPlayerBeginPlayHook(void* player) {
 		auto returns = Run(event::AFGCharacterPlayerBeginPlay, player);
 		if (!returns.UseOriginalFunction) {
@@ -98,6 +82,8 @@ namespace SML {
 	}
 
 	void PlayerEvents::Setup(HookLoader* hookLoader) {
+		SML::info("PlayerEvents::Setup");
+
 		// AFGCharacterPlayer
 		hookLoader->HookEvent(event::AFGCharacterPlayerBeginPlay, "AFGCharacterPlayer::BeginPlay", this->AFGCharacterPlayerBeginPlayHook);
 

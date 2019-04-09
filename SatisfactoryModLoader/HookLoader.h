@@ -21,7 +21,7 @@ namespace SML {
 			AFGPlayerControllerBeginPlay,
 			// ; void __fastcall AFGPlayerController::EnterChatMessage(AFGPlayerController *this, FString *inMessage)
 			AFGPlayerControllerEnterChatMessage,
-			// ; void __fastcall AFGPlayerController::EnterChatMessage(AFGPlayerController *this, FString *inMessage) - GLOBAL
+			// ; void __fastcall AFGPlayerController::EnterChatMessage(AFGPlayerController *this, FString *inMessage)
 			AFGPlayerControllerEnterChatMessageGlobal,
 
 			/// AFGCharacterBase
@@ -40,10 +40,25 @@ namespace SML {
 
 			// ; bool __fastcall UPlayerInput::InputKey(UPlayerInput *this, FKey Key, EInputEvent Event, float AmountDepressed, bool bGamepad)
 			UPlayerInputInputKey,
+
+			/// FText
+
+			// ; FString *__fastcall FText::ToString(FText *this)
+			FTextToString,
+			// ; FString *__fastcall FText::ToString(FText *this)
+			FTextToStringGlobal,
+
+			/// BuildSettings
+
+			// ; const wchar_t *__fastcall BuildSettings::GetBuildVersion()
+			BuildSettingsGetBuildVersion,
+			// ; const wchar_t *__fastcall BuildSettings::GetBuildVersion()
+			BuildSettingsGetBuildVersionGlobal,
 			END
 		};
 
 		void RegisterHooks();
+		void CheckVersion(std::string str);
 		void HookEvent(Event event, const char* eventCall, PVOID hook);
 	private:
 		const char* _gameModule = "FactoryGame-Win64-Shipping.exe";

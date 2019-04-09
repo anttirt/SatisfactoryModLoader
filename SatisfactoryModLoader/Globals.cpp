@@ -3,7 +3,7 @@
 
 namespace SML {
 	const char* Globals::modLoaderVersion = "v0.1 beta";
-	const char* Globals::targetVersion = "96463";
+	const char* Globals::targetVersion = "96731";
 	bool Globals::showConsoleDebug = false;
 	bool Globals::supressConsoleErrors = false;
 	Globals globals;

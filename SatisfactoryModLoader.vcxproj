@@ -143,8 +143,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="SatisfactoryModLoader\events\BaseEvent.h" />
     <ClInclude Include="SatisfactoryModLoader\events\PlayerEvents.h" />
-    <ClInclude Include="SatisfactoryModLoader\external\FString.h" />
+    <ClInclude Include="SatisfactoryModLoader\events\UtilityEvents.h" />
     <ClInclude Include="SatisfactoryModLoader\Globals.h" />
     <ClInclude Include="SatisfactoryModLoader\HookLoader.h" />
     <ClInclude Include="SatisfactoryModLoader\Internals.h" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SatisfactoryModLoader\events\PlayerEvents.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\events\UtilityEvents.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Globals.cpp" />
     <ClCompile Include="SatisfactoryModLoader\HookLoader.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Internals.cpp" />
