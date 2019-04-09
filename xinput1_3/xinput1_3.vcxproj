@@ -83,6 +83,7 @@
     <IncludePath>$(MSBuildProjectDirectory)\detours;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\detours;$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)</TargetName>
+    <PostBuildEventUseInBuild>false</PostBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
