@@ -78,7 +78,7 @@ namespace SML {
 		SML::info("Registering hooks");
 		hookLoader.RegisterHooks();
 
-		SML::info("Setting up modsadadadad");
+		SML::info("Setting up mods");
 		modLoader.SetupMods();
 	}
 
@@ -86,5 +86,7 @@ namespace SML {
 		for (BaseMod* mod : globals.mods) {
 			mod->Cleanup();
 		}
+
+		SML::logFile.close();
 	}
 }

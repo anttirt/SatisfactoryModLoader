@@ -3,8 +3,13 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <utility>
 
 namespace SML {
+	static std::ofstream logFile;
+
 	enum ConsoleColor {
 		DarkBlue,
 		DarkGreen,
@@ -27,6 +32,10 @@ namespace SML {
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		// sets the console color
 		SetConsoleTextAttribute(hConsole, color + 1);
+	}
+
+	static void OpenLog() {
+		logFile.open("SML.log", std::ios_base::app);
 	}
 
 	static void RenderText() {}
@@ -53,6 +62,10 @@ namespace SML {
 
 		std::cout << line;
 
+		OpenLog();
+		logFile << '[' << header << "] ";
+		logFile.close();
+
 		set_color(ConsoleColor::Grey);
 	}
 
@@ -60,10 +73,18 @@ namespace SML {
 	static void RenderText(First&& arg0, Args&& ...args) {
 		std::cout << std::forward<First>(arg0);
 
+		OpenLog();
+		logFile << std::forward<First>(arg0);
+		logFile.close();
+
 		RenderText(std::forward<Args>(args)...);
 
 		if (sizeof...(args) == 0) {
 			std::cout << std::endl;
+
+			OpenLog();
+			logFile << std::endl;
+			logFile.close();
 		}
 	}
 
@@ -94,6 +115,7 @@ namespace SML {
 	template<typename First, typename ...Args>
 	static void mod_info(const char* name, First&& arg0, Args&& ...args) {
 		RenderHeader(name, ConsoleColor::White);
+		logFile << name;
 		set_color(ConsoleColor::Green);
 		RenderText(arg0, args...);
 		set_color(ConsoleColor::Grey);
