@@ -46,8 +46,8 @@ namespace SML {
 		// verify folders
 		struct stat info;
 
-		if (stat("configs", &info) != 0) {
-			CreateDirectoryA("configs", NULL);
+		if (stat("config", &info) != 0) {
+			CreateDirectoryA("config", NULL);
 		}
 
 		if (stat("mods", &info) != 0) {
