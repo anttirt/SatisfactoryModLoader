@@ -2,7 +2,7 @@
 
 #include <utility/Connection.h>
 #include <utility/Dispatcher.h>
-#include <other/CommandSystem.h>
+#include <utility/Configuration.h>
 #include "HookLoader.h"
 #include "ModReturns.h"
 #include "Globals.h"
@@ -26,6 +26,8 @@ namespace SML {
 		void Run(ModReturns* returns, HookLoader::Event event, Args ...args) {
 			return _dispatcher.post(returns, event, (args)...);
 		}
+
+		virtual void Cleanup() {}
 
 	protected:
 		SML::Dispatcher _dispatcher;

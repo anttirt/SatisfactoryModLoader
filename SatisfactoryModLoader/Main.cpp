@@ -81,4 +81,10 @@ namespace SML {
 		SML::info("Setting up modsadadadad");
 		modLoader.SetupMods();
 	}
+
+	void Cleanup() {
+		for (BaseMod* mod : globals.mods) {
+			mod->Cleanup();
+		}
+	}
 }

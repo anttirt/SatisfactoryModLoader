@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <utility/Configuration.h>
+#include <other/CommandSystem.h>
 #include <events/PlayerEvents.h>
 #include <other/CommandSystem.h>
 #include <other/CommandParser.h>
@@ -12,6 +13,7 @@ using event = SML::HookLoader::Event;
 // if you want to access the Global values
 ExampleMod* mod;
 SML::CommandSystem commandSystem;
+SML::Configuration config("ExampleMod");
 
 SML::PlayerCharacter* tmpPlayer;
 void* tmpPlayerController;
@@ -42,6 +44,14 @@ void GetController(SML::ModReturns* returns, void* controller) {
 	tmpPlayerController = controller;
 }
 
+void GetInput(SML::ModReturns* returns, void* input, void* key, void* event, float amountDepressed, bool gamepad) {
+	if (GetAsyncKeyState('K')) {
+		SML::mod_info(mod->Name(), "K pressed");
+	}
+}
+
+/// commands
+
 void HealPlayer(void* player, SML::CommandParser::CommandData data) {
 	if (data.Args.capacity() < 1) {
 		return;
@@ -54,7 +64,7 @@ void HealPlayer(void* player, SML::CommandParser::CommandData data) {
 
 	std::string str(
 		"Set the character's health to " + std::to_string((int)health) + " [" + std::to_string((int)arg0) + "]");
-	auto pointer = mod->GlobalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
+	auto pointer = mod->globalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
 	((void(__stdcall*)(void*, std::string))pointer)(player, str);
 }
 
@@ -62,34 +72,42 @@ void CheckHealth(void* player, SML::CommandParser::CommandData data) {
 	float health = *tmpPlayer->healthComponent->currentHealth;
 
 	std::string str("The character's health is " + std::to_string((int)health));
-	auto pointer = mod->GlobalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
+	auto pointer = mod->globalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
 	((void(__stdcall*)(void*, std::string))pointer)(player, str);
 }
 
-void GetItem(void* player, SML::CommandParser::CommandData data) {
+void SetItem(void* player, SML::CommandParser::CommandData data) {
 	int slot = data.get_int(0);
 	int amount = data.get_int(1);
 
 	SML::ItemStack stack = tmpPlayer->inventory->get_item(slot);
 	*stack.amount = amount;
-	//SML::info("Amount: ", *stack.amount);
 	SML::Item item = stack.item;
 	SML::ItemDescriptor* descriptor = item.descriptor;
 	SML::mod_info(mod->Name(), "Item: ", item.pointer);
 	SML::mod_info(mod->Name(), "Amount: ", stack.amount);
-	SML::mod_info(mod->Name(), "Descriptor: ", item.descriptor);
-	auto pointer = mod->GlobalsReference->functions[event::FTextToStringGlobal];
-	SML::FString* str = ((SML::FString*(__stdcall*)(void*))pointer)(descriptor->displayName);
-	SML::mod_info(mod->Name(), "Str: ", str->get_string());
 }
 
 void ExampleMod::Setup() {
 	mod = this;
+
+	if (!config.exists()) {
+		config.set("SampleInt", 5);
+		config.save();
+	}
+
+	config.load();
+
 	_dispatcher.subscribe(SML::HookLoader::Event::AFGCharacterPlayerBeginPlay, GetPlayer);
 	_dispatcher.subscribe(SML::HookLoader::Event::AFGPlayerControllerBeginPlay, GetController);
 	_dispatcher.subscribe(SML::HookLoader::Event::AFGPlayerControllerEnterChatMessage, GetMessage);
+	_dispatcher.subscribe(SML::HookLoader::Event::UPlayerInputInputKey, GetInput);
 
 	commandSystem.RegisterCommand("heal", HealPlayer);
 	commandSystem.RegisterCommand("checkHealth", CheckHealth);
-	commandSystem.RegisterCommand("getItem", GetItem);
+	commandSystem.RegisterCommand("setItem", SetItem);
+}
+
+void ExampleMod::Cleanup() {
+
 }

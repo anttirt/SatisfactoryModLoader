@@ -9,7 +9,7 @@
 
 class ExampleMod : SML::BaseMod {
 public:
-	SML::Globals* GlobalsReference;
+	SML::Globals* globalsReference;
 
 	const char* Name() { 
 		return "Example Mod"; 
@@ -31,10 +31,12 @@ public:
 
 	void PreSetup(SML::Globals* globals) {
 		SML::mod_info(Name(), "Setting up ", Name());
-		GlobalsReference = globals;
+		globalsReference = globals;
 
 		Setup();
 	}
+
+	void Cleanup();
 
 protected:
 	void Setup();
