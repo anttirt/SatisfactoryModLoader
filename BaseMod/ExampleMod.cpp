@@ -8,7 +8,10 @@
 #include "ModReturns.h"
 #include "Internals.h"
 
-using event = SML::HookLoader::Event;
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+
+#undef GetMessage
 
 // if you want to access the Global values
 ExampleMod* mod;
@@ -18,7 +21,8 @@ SML::Configuration config("ExampleMod");
 SML::PlayerCharacter* tmpPlayer;
 void* tmpPlayerController;
 
-void GetMessage(SML::ModReturns* returns, void* player, std::string message) {
+void GetMessage(SML::ModReturns* returns, void* player, SML::FString* message_) {
+	std::string message = message_->get_string();
 	SML::mod_info(mod->Name(), "Message recieved: ", message);
 
 	SML::CommandParser::CommandData data = SML::CommandParser::Parse(message);
@@ -44,15 +48,16 @@ void GetController(SML::ModReturns* returns, void* controller) {
 	tmpPlayerController = controller;
 }
 
-void GetInput(SML::ModReturns* returns, void* input, void* key, void* event, float amountDepressed, bool gamepad) {
+bool GetInput(SML::ModReturns* returns, SML::UPlayerInput* input, SML::FKey key, SML::EInputEvent event, float amountDepressed, bool gamepad) {
 	if (GetAsyncKeyState('K')) {
 		SML::mod_info(mod->Name(), "K pressed");
 	}
+	return false;
 }
 
 /// commands
 
-void HealPlayer(void* player, SML::CommandParser::CommandData data) {
+void HealPlayer(SML::AFGPlayerController* player, SML::CommandParser::CommandData data) {
 	if (data.Args.capacity() < 1) {
 		return;
 	}
@@ -64,19 +69,19 @@ void HealPlayer(void* player, SML::CommandParser::CommandData data) {
 
 	std::string str(
 		"Set the character's health to " + std::to_string((int)health) + " [" + std::to_string((int)arg0) + "]");
-	auto pointer = mod->globalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
-	((void(__stdcall*)(void*, std::string))pointer)(player, str);
+	SML::FString msg{ str.c_str() };
+	SML::Call<&SML::AFGPlayerController::EnterChatMessage>(player, &msg);
 }
 
-void CheckHealth(void* player, SML::CommandParser::CommandData data) {
+void CheckHealth(SML::AFGPlayerController* player, SML::CommandParser::CommandData data) {
 	float health = *tmpPlayer->healthComponent->currentHealth;
 
 	std::string str("The character's health is " + std::to_string((int)health));
-	auto pointer = mod->globalsReference->functions[event::AFGPlayerControllerEnterChatMessageGlobal];
-	((void(__stdcall*)(void*, std::string))pointer)(player, str);
+	SML::FString msg{ str.c_str() };
+	SML::Call<&SML::AFGPlayerController::EnterChatMessage>(player, &msg);
 }
 
-void SetItem(void* player, SML::CommandParser::CommandData data) {
+void SetItem(SML::AFGPlayerController* player, SML::CommandParser::CommandData data) {
 	int slot = data.get_int(0);
 	int amount = data.get_int(1);
 
@@ -98,10 +103,10 @@ void ExampleMod::Setup() {
 
 	config.load();
 
-	_dispatcher.subscribe(SML::HookLoader::Event::AFGCharacterPlayerBeginPlay, GetPlayer);
-	_dispatcher.subscribe(SML::HookLoader::Event::AFGPlayerControllerBeginPlay, GetController);
-	_dispatcher.subscribe(SML::HookLoader::Event::AFGPlayerControllerEnterChatMessage, GetMessage);
-	_dispatcher.subscribe(SML::HookLoader::Event::UPlayerInputInputKey, GetInput);
+	SML::Subscribe<&SML::AFGCharacterPlayer::BeginPlay>(GetPlayer);
+	SML::Subscribe<&SML::AFGPlayerController::BeginPlay>(GetController);
+	SML::Subscribe<&SML::AFGPlayerController::EnterChatMessage>(GetMessage);
+	SML::Subscribe<&SML::UPlayerInput::InputKey>(GetInput);
 
 	commandSystem.RegisterCommand("heal", HealPlayer);
 	commandSystem.RegisterCommand("checkHealth", CheckHealth);

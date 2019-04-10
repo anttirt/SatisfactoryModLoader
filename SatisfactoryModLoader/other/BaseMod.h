@@ -1,7 +1,5 @@
 #pragma once
 
-#include <utility/Connection.h>
-#include <utility/Dispatcher.h>
 #include <utility/Configuration.h>
 #include "HookLoader.h"
 #include "ModReturns.h"
@@ -22,16 +20,9 @@ namespace SML {
 
 		virtual void PreSetup(Globals* globals) {}
 
-		template<typename ...Args>
-		void Run(ModReturns* returns, HookLoader::Event event, Args ...args) {
-			return _dispatcher.post(returns, event, (args)...);
-		}
-
 		virtual void Cleanup() {}
 
 	protected:
-		SML::Dispatcher _dispatcher;
-
 		virtual void Setup() {}
 	};
 }

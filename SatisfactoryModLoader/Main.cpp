@@ -1,15 +1,19 @@
 #include <stdafx.h>
 #include <Main.h>
-#include <string>
-#include <fstream>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <utility/Configuration.h>
 #include <utility/Logger.h>
 #include <events/UtilityEvents.h>
 #include "Globals.h"
 #include "ModLoader.h"
 #include "HookLoader.h"
+
+#include <string>
+#include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 
 namespace SML {
 	void Entry() {
@@ -74,10 +78,6 @@ namespace SML {
 		modLoader.VerifyDependencies();
 
 		// load hooks
-		HookLoader hookLoader;
-		SML::info("Registering hooks");
-		hookLoader.RegisterHooks();
-
 		SML::info("Setting up mods");
 		modLoader.SetupMods();
 	}

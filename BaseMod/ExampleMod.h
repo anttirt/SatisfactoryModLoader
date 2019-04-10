@@ -1,8 +1,6 @@
 #pragma once
 
 #include <other/BaseMod.h>
-#include <utility/Connection.h>
-#include <utility/Dispatcher.h>
 #include <utility/Logger.h>
 #include <other/CommandParser.h>
 #include <other/CommandSystem.h>

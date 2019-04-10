@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Lib.h"
 
 namespace SML {
 	template <class T>
@@ -13,7 +14,7 @@ namespace SML {
 		return (T *)(reinterpret_cast<unsigned char*>(ptr) + offset);
 	}
 
-	struct FString {
+	struct SML_API FString {
 		int16_t* data;
 		int32_t length;
 
@@ -25,7 +26,7 @@ namespace SML {
 		void set_message(const char* message);
 	};
 
-	class PlayerCharacter {
+	class SML_API PlayerCharacter {
 	public:
 		void* pointer;
 
@@ -44,7 +45,7 @@ namespace SML {
 		PlayerCharacter(void* pointer);
 	};
 
-	class HealthComponent {
+	class SML_API HealthComponent {
 	public:
 		void* pointer;
 
@@ -55,7 +56,7 @@ namespace SML {
 		HealthComponent(void* pointer);
 	};
 
-	class InventoryComponent {
+	class SML_API InventoryComponent {
 	public:
 		void* pointer;
 
@@ -69,7 +70,7 @@ namespace SML {
 		class ItemStack get_item(int index);
 	};
 
-	class ItemStack {
+	class SML_API ItemStack {
 	public:
 		void* pointer;
 
@@ -80,7 +81,7 @@ namespace SML {
 		ItemStack(void* pointer);
 	};
 
-	class Item { // TODO
+	class SML_API Item { // TODO
 	public:
 		void* pointer;
 
@@ -109,7 +110,7 @@ namespace SML {
 		RF_LAST_ENUM = 5,
 	};
 
-	class ItemDescriptor {
+	class SML_API ItemDescriptor {
 	public:
 		void* pointer;
 

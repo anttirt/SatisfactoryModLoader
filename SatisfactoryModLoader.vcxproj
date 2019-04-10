@@ -132,6 +132,7 @@
       <ConformanceMode>true</ConformanceMode>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\Detours\src;%(AdditionalIncludeDirectories);$(MSBuildProjectDirectory)\SatisfactoryModLoader</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,18 +147,17 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="SatisfactoryModLoader\events\BaseEvent.h" />
     <ClInclude Include="SatisfactoryModLoader\events\PlayerEvents.h" />
     <ClInclude Include="SatisfactoryModLoader\events\UtilityEvents.h" />
     <ClInclude Include="SatisfactoryModLoader\Globals.h" />
     <ClInclude Include="SatisfactoryModLoader\HookLoader.h" />
     <ClInclude Include="SatisfactoryModLoader\Internals.h" />
+    <ClInclude Include="SatisfactoryModLoader\Lib.h" />
     <ClInclude Include="SatisfactoryModLoader\ModReturns.h" />
     <ClInclude Include="SatisfactoryModLoader\other\BaseMod.h" />
     <ClInclude Include="SatisfactoryModLoader\other\CommandParser.h" />
     <ClInclude Include="SatisfactoryModLoader\other\CommandSystem.h" />
-    <ClInclude Include="SatisfactoryModLoader\utility\Connection.h" />
-    <ClInclude Include="SatisfactoryModLoader\utility\Dispatcher.h" />
+    <ClInclude Include="SatisfactoryModLoader\utility\DetoursFwd.h" />
     <ClInclude Include="SatisfactoryModLoader\utility\Logger.h" />
     <ClInclude Include="SatisfactoryModLoader\utility\Reflection.h" />
     <ClInclude Include="SatisfactoryModLoader\external\json.hpp" />
@@ -174,8 +174,7 @@
     <ClCompile Include="SatisfactoryModLoader\HookLoader.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Internals.cpp" />
     <ClCompile Include="SatisfactoryModLoader\other\CommandSystem.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\utility\Connection.cpp" />
-    <ClCompile Include="SatisfactoryModLoader\utility\Dispatcher.cpp" />
+    <ClCompile Include="SatisfactoryModLoader\utility\Logger.cpp" />
     <ClCompile Include="SatisfactoryModLoader\utility\Reflection.cpp" />
     <ClCompile Include="SatisfactoryModLoader\Main.cpp" />
     <ClCompile Include="SatisfactoryModLoader\ModLoader.cpp" />

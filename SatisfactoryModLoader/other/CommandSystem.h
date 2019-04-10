@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Windows.h>
 #include <string>
 #include <map>
 #include <other/CommandParser.h>
@@ -10,17 +9,17 @@ namespace SML {
 	struct Command {
 		bool Empty;
 		std::string Name;
-		PVOID Action;
+		void* Action;
 
 		void Invoke(void* player, SML::CommandParser::CommandData command) {
-			auto pointer = (void(WINAPI*)(void*, SML::CommandParser::CommandData))Action;
+			auto pointer = (void(__stdcall*)(void*, SML::CommandParser::CommandData))Action;
 			pointer(player, command);
 		}
 	};
 
 	class CommandSystem {
 	public:
-		void RegisterCommand(std::string name, PVOID action) {
+		void RegisterCommand(std::string name, void* action) {
 			_commands.insert(std::pair<std::string, Command>(name, Command{ false, name, action }));
 		}
 

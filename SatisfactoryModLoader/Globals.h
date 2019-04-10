@@ -14,7 +14,6 @@ namespace SML {
 		static const char* targetVersion;
 		static bool showConsoleDebug;
 		static bool supressConsoleErrors;
-		std::map<HookLoader::Event, PVOID> functions;
 		std::vector<BaseMod*> mods;
 	};
 

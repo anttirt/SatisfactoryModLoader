@@ -1,28 +1,29 @@
 #pragma once
 
-#include <Windows.h>
-#include <events/BaseEvent.h>
+#include "HookLoader.h"
 
-class FString;
-class Globals;
+#pragma warning (push)
+#pragma warning (disable: 4667)
 
 namespace SML {
-	class HookLoader;
+	struct FString;
 
-	class UtilityEvents : BaseEvent {
+	class FText {
 	public:
 		// ; FString *__fastcall FText::ToString(FText *this)
-		static FString* FTextToStringHook(void* text);
-
-		// ; FString *__fastcall FText::ToString(FText *this)
-		static FString* FTextToStringGlobal(void* text);
-
-		// ; const wchar_t *__fastcall BuildSettings::GetBuildVersion()
-		static const wchar_t* BuildSettingsGetBuildVersionHook();
-
-		// ; const wchar_t *__fastcall BuildSettings::GetBuildVersion()
-		static std::string BuildSettingsGetBuildVersionGlobal();
-
-		void Setup(HookLoader* hookLoader);
+		FString* ToString();
 	};
+
+	DEFINE_METHOD(FText::ToString);
+
+	class BuildSettings {
+	public:
+		// ; const wchar_t *__fastcall BuildSettings::GetBuildVersion()
+		static const wchar_t* GetBuildVersion();
+
+	};
+
+	DEFINE_METHOD(BuildSettings::GetBuildVersion);
 }
+
+#pragma warning (pop)

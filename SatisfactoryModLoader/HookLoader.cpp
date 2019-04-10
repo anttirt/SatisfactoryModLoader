@@ -1,25 +1,17 @@
 #include <stdafx.h>
-#include <detours.h>
-#include <iostream>
-#include <events/PlayerEvents.h>
-#include <events/UtilityEvents.h>
-#include <utility/Logger.h>
-#include <string>
-#include "Globals.h"
+
 #include "HookLoader.h"
-#include "ModLoader.h"
+#include "events/PlayerEvents.h"
+#include "utility/Logger.h"
+#include "Globals.h"
+
+#include <string>
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 
 namespace SML {
-	// get original functions and hook them
-	void HookLoader::RegisterHooks() {
-		PlayerEvents playerEvents;
-		playerEvents.Setup(this);
-
-		UtilityEvents utilityEvents;
-		utilityEvents.Setup(this);
-	}
-
-	void HookLoader::CheckVersion(std::string str) {
+	void CheckVersion(std::string str) {
 		std::string version = str.substr(str.length() - 5, str.length());
 		if (version == globals.targetVersion) {
 			SML::info("Version check passed!");
@@ -41,30 +33,5 @@ namespace SML {
 				SML::warning("SupressErrors set to true, continuing...");
 			}
 		}
-	}
-
-	// hook event from keypair at index
-	void HookLoader::HookEvent(Event event, const char* eventCall, PVOID hook) {
-		if ((eventCall != NULL) && (eventCall[0] == '\0')) {
-			SML::info("Inserted Event::", event);
-			globals.functions.insert(std::pair<Event, PVOID>(event, hook));
-			return;
-		}
-
-		DetourTransactionBegin();
-		DetourUpdateThread(GetCurrentThread());
-
-		auto function = DetourFindFunction(_gameModule, eventCall);
-		if (!function) {
-			SML::error("Cannot find ", eventCall);
-			return;
-		}
-
-		DetourAttach(&(PVOID&)function, hook);
-		DetourTransactionCommit();
-
-		SML::info("Hooked ", eventCall);
-
-		globals.functions.insert(std::pair<Event, PVOID>(event, function));
 	}
 }

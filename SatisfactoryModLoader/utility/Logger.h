@@ -7,6 +7,8 @@
 #include <fstream>
 #include <utility>
 
+#include <Lib.h>
+
 namespace SML {
 	static std::ofstream logFile;
 
@@ -28,11 +30,7 @@ namespace SML {
 		White
 	};
 
-	static void set_color(ConsoleColor color) {
-		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		// sets the console color
-		SetConsoleTextAttribute(hConsole, color + 1);
-	}
+	void SML_API set_color(ConsoleColor color);
 
 	static void OpenLog() {
 		logFile.open("SML.log", std::ios_base::app);
@@ -56,7 +54,7 @@ namespace SML {
 		set_color(color);
 
 		std::string line = '[' + split + ']';
-		for (int i = line.length(); i < length; i++) {
+		for (size_t i = line.length(); i < length; i++) {
 			line += ' ';
 		}
 
