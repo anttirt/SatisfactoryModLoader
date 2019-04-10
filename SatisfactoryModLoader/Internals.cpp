@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include "Internals.h"
+#include "events/PlayerEvents.h"
 
 #include <cstdint>
 
@@ -34,7 +35,7 @@ namespace SML {
 		return std::string(chars);
 	}
 
-	PlayerCharacter::PlayerCharacter(void* pointer) {
+	PlayerCharacter::PlayerCharacter(AFGCharacterPlayer* pointer) {
 		this->pointer = pointer;
 
 		this->healthComponent = new HealthComponent(OffsetPointer(pointer, 0x07a0));

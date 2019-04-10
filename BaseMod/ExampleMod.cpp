@@ -21,7 +21,7 @@ SML::Configuration config("ExampleMod");
 SML::PlayerCharacter* tmpPlayer;
 void* tmpPlayerController;
 
-void GetMessage(SML::ModReturns* returns, void* player, SML::FString* message_) {
+void GetMessage(SML::ModReturns* returns, SML::AFGPlayerController* player, SML::FString* message_) {
 	std::string message = message_->get_string();
 	SML::mod_info(mod->Name(), "Message recieved: ", message);
 
@@ -38,12 +38,12 @@ void GetMessage(SML::ModReturns* returns, void* player, SML::FString* message_) 
 	}
 }
 
-void GetPlayer(SML::ModReturns* returns, void* player) {
+void GetPlayer(SML::ModReturns* returns, SML::AFGCharacterPlayer* player) {
 	SML::mod_info(mod->Name(), "Set Player ", player);
 	tmpPlayer = new SML::PlayerCharacter(player);
 }
 
-void GetController(SML::ModReturns* returns, void* controller) {
+void GetController(SML::ModReturns* returns, SML::AFGPlayerController* controller) {
 	SML::mod_info(mod->Name(), "Set Controller ", controller);
 	tmpPlayerController = controller;
 }
@@ -95,6 +95,8 @@ void SetItem(SML::AFGPlayerController* player, SML::CommandParser::CommandData d
 
 void ExampleMod::Setup() {
 	mod = this;
+
+	SML::mod_info(mod->Name(), "ExampleMod setup");
 
 	if (!config.exists()) {
 		config.set("SampleInt", 5);

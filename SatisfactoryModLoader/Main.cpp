@@ -14,6 +14,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <conio.h>
 
 namespace SML {
 	void Entry() {
@@ -80,6 +81,11 @@ namespace SML {
 		// load hooks
 		SML::info("Setting up mods");
 		modLoader.SetupMods();
+
+		SML::info("Mod setup complete");
+		if(config.get("ShowConsole", true)) {
+			_getch();
+		}
 	}
 
 	void Cleanup() {

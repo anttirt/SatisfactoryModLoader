@@ -42,7 +42,7 @@ namespace SML {
 		float* healthGenerationTimer;
 		float* lastDamageTakenTime;
 
-		PlayerCharacter(void* pointer);
+		PlayerCharacter(class AFGCharacterPlayer* pointer);
 	};
 
 	class SML_API HealthComponent {

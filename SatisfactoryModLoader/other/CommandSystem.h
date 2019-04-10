@@ -6,20 +6,21 @@
 #include "Internals.h"
 
 namespace SML {
+	typedef void __stdcall ActionFunc(class AFGPlayerController* player, CommandParser::CommandData data);
+
 	struct Command {
 		bool Empty;
 		std::string Name;
-		void* Action;
+		ActionFunc* Action;
 
-		void Invoke(void* player, SML::CommandParser::CommandData command) {
-			auto pointer = (void(__stdcall*)(void*, SML::CommandParser::CommandData))Action;
-			pointer(player, command);
+		void Invoke(class AFGPlayerController* player, SML::CommandParser::CommandData command) {
+			Action(player, command);
 		}
 	};
 
 	class CommandSystem {
 	public:
-		void RegisterCommand(std::string name, void* action) {
+		void RegisterCommand(std::string name, ActionFunc* action) {
 			_commands.insert(std::pair<std::string, Command>(name, Command{ false, name, action }));
 		}
 
