@@ -211,7 +211,10 @@ namespace SML {
 			HandlerStorage<PMF, Handler>::handlers.push_back(handler);
 		}
 
-		static HookType* GetOriginal() { return (HookType*)original; }
+		static HookType* GetOriginal() {
+			InstallHook();
+			return (HookType*)original;
+		}
 	};
 
 	template <typename R, typename C, typename... A, R(C::*PMF)(A...)>
